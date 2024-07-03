@@ -13,7 +13,7 @@
 
     <div class="p-5">
         <h2 class="display-6 text-center"><%= category.charAt(0).toUpperCase() + category.slice(1) %> Machines</h2>
-        <p class="text-center"><%= category.charAt(0).toUpperCase() + category.slice(1) %> workouts are an essential part of fitness. Shop the range of <%= category %> machines at GymEquipment.co.uk.</p>
+        <p class="text-center"><%= category.charAt(0).toUpperCase() + category.slice(1) %> workouts are an essential part of fitness. Shop the range of <%= category %> machines at GYMMINGTON</p>
     </div>
 
     <div class="container text-center row">
@@ -66,7 +66,7 @@
                 <div class="mt-4 text-start">
                     <label for="page">Page:</label>
                     <% for (let i = 1; i <= totalPages; i++) { %>
-                        <button class="btn btn-sm text-white" style="background-color: var(--color2);" onclick="changePage(i)"><%= i %></button>
+                        <button class="btn btn-sm text-white" style="background-color: var(--color2);" onclick="changePage(<%= i %>)"><%= i %></button>
                     <% } %>
                 </div>
             <% } %>
