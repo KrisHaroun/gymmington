@@ -23,12 +23,43 @@ db.connect();
 app.use(session({
     secret: 'your_secret_key',
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: true,
+    cookie: { secure: false }
 }));
+
+function ensureAuthenticated(req, res, next) {
+    if (req.session.user) {
+        return next();
+    } else {
+        res.redirect('/login');
+    }
+}
 
 app.get("/", (req, res) => {
     const user = req.session.user || null;
     res.render("index.ejs", { user });
+});
+
+app.get('/my_account', ensureAuthenticated, (req, res) => {
+    const user = req.session.user;
+    res.render('my_account.ejs', { user });
+});
+
+app.post('/update_account', ensureAuthenticated, async (req, res) => {
+    const { first_name, last_name, email } = req.body;
+
+    try {
+        await db.query(
+            "UPDATE users SET first_name = $1, last_name = $2 WHERE email = $3",
+            [first_name, last_name, email]
+        );
+        req.session.user.first_name = first_name;
+        req.session.user.last_name = last_name;
+        res.redirect('/my-account');
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
+    }
 });
 
 app.get("/gym_design", (req, res) => {
@@ -39,26 +70,34 @@ app.get("/login", (req, res) => {
     res.render("login.ejs");
 });
 
-app.post("/login", async (req, res) => {
+app.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    const user = await db.query("SELECT * FROM users WHERE email = $1", [email]);
 
-    if (user.rows.length > 0) {
-        const match = await bcrypt.compare(password, user.rows[0].password);
-        if (match) {
-            req.session.user = user.rows[0];
-            res.redirect("/");
+    try {
+        const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+        const user = result.rows[0];
+
+        if (user && await bcrypt.compare(password, user.password)) {
+            req.session.user = {
+                id: user.id,
+                email: user.email,
+                first_name: user.first_name,
+                last_name: user.last_name
+            };
+            res.redirect('/my_account');
         } else {
-            res.send("Incorrect password");
+            res.status(401).send('Invalid credentials');
         }
-    } else {
-        res.send("No user found with that username");
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Server error');
     }
 });
 
+
 app.get("/register", (req, res) => {
     res.render("register.ejs");
-})
+});
 
 app.post("/register", async (req, res) => {
     const { first_name, last_name, email, password } = req.body;
@@ -73,6 +112,10 @@ app.post("/register", async (req, res) => {
     } catch (e) {
         res.send("Error registering user");
     }
+});
+
+app.get("/about", (req, res) => {
+    res.render("about.ejs");
 });
 
 app.get("/:category", async (req, res) => {

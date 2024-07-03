@@ -12,8 +12,58 @@
     <%- include("partials/header.ejs") %>
 
     <div class="p-5">
-        <h2 class="display-6 text-center"><%= category.charAt(0).toUpperCase() + category.slice(1) %> Machines</h2>
-        <p class="text-center"><%= category.charAt(0).toUpperCase() + category.slice(1) %> workouts are an essential part of fitness. Shop the range of <%= category %> machines at GYMMINGTON</p>
+
+        <% switch (category) {
+            case "cardio":
+                %>
+                <h2 class="display-6 text-center fw-bold">Cardio Machines</h2>
+                <p class="text-center">Cardio workouts are often seen as the bedrock of a fitness workout, helping to work out your heart and respiratory system. Shop the range of cardio machines at GymEquipment.co.uk and find an unbeatable variety of machines including treadmills, cross trainers, bikes, steppers, and rowing machines. </p>
+                <%
+                break;
+            
+                case "strength":
+                %>
+                <h2 class="display-6 text-center fw-bold">Strength Equipment</h2>
+                <p class="text-center">Take your strength training to the next level with our range of strength equipment and accessories. Strength training will improve your power, strength, balance and posture if you train the right way. From professional bodybuilders to working out in your home, we can help you achieve your fitness goals. From multigyms and cable machines, to weight benches and wall bars, we've got all the machines you need to boost your strength.</p>
+                <%
+                break;
+
+                case "free_weights":
+                %>
+                <h2 class="display-6 text-center fw-bold">Free Weights</h2>
+                <p class="text-center">Using free weights is the perfect way to build strength or tone those muscles at home or in the gym. Whether you choose a barbell or a set of dumbbells, you can target key muscles with simple but effective workouts. Shop everything from Olympic bars and plates, through to dumbbells and a range of weightlifting accessories at GymEquipment.co.uk. With brands including Jordan Fitness and Physical Company, we choose to stock only high-quality, cost-effective gym equipment.</p>
+                <%
+                break;
+
+                case "crossfit":
+                %>
+                <h2 class="display-6 text-center fw-bold">Functional Fitness & CrossFit Machines</h2>
+                <p class="text-center">Shop for functional fitness equipment and CrossFit machines at GymEquipment.co.uk, where you’ll find everything you need for your HYROX workout or HIIT training. Although they have different training principles, CrossFit and functional fitness do have a lot in common and therefore share some of the same training tools. Explore the full collection below.</p>
+                <%
+                break;
+
+                case "pilates":
+                %>
+                <h2 class="display-6 text-center fw-bold">Pilates Equipment & Machines</h2>
+                <p class="text-center">Explore the full range of Pilates equipment and machines at GymEquipment.co.uk where you'll find everything from resistance machines and towers to a wide selection of Pilates accessories to help you achieve your fitness goals, whatever your skill level is. Shop top brands like Merrithew, Align Pilates and Physical Company for your Pilates studio, home or commercial gym.</p>
+                <%
+                break;
+
+                case "studio":
+                %>
+                <h2 class="display-6 text-center fw-bold">Studio Fitness Equipment & Accessories</h2>
+                <p class="text-center">Transform your fitness studio into a powerhouse of results with our premium range of studio fitness equipment at GymEquipment.co.uk. Whether you're a seasoned exercise enthusiast or a studio owner looking to upgrade, our top-of-the-line products will elevate your workout space to new heights. Say hello to peak performance and goodbye to ordinary gym setups.</p>
+                <%
+                break;
+
+                case "gym_flooring":
+                %>
+                <h2 class="display-6 text-center fw-bold">Gym Flooring</h2>
+                <p class="text-center">Whether it's for commercial, residential gyms or garages, strength or CV only, gym flooring is the one essential piece of equipment that's often forgotten despite its importance. Protect your floors with rubber gym flooring, add a custom sprint or sled track, or define zones — all for less than you think with Gymmington.</p>
+                <%
+                break;
+        } %> 
+        
     </div>
 
     <div class="container text-center row">
